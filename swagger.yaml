@@ -200,6 +200,8 @@ definitions:
    properties:
     postId:
       type: string
+    userID:
+      type: string
     title:
       type: string
     text:

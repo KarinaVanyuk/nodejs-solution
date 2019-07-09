@@ -5,7 +5,7 @@ const swagger = require("./routes/swagger.js");
 const router = express.Router().use("/", swagger);
 
 const app = express()
-.use("/docs", swagger);
+.use("/docs", swagger)
 
 app.listen(port, (err) => {
   if (err) {
