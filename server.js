@@ -1,11 +1,16 @@
 const express = require("express");
+const bodyParser = require('body-parser');
 const port = 3000;
 const swagger = require("./routes/swagger.js");
-
-const router = express.Router().use("/", swagger);
+const posts = require("./routes/posts.js");
+const users = require("./routes/users.js");
 
 const app = express()
-.use("/docs", swagger)
+app.use(bodyParser.json());
+
+app.use("/docs", swagger)
+   .use('/posts', posts)
+   .use('/user', users)
 
 app.listen(port, (err) => {
   if (err) {
