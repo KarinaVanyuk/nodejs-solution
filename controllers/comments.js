@@ -11,6 +11,22 @@ const getComments = function (req, res) {
    comments.length ? res.json(comments) : res.status(200).send('Invalid status value')
 };
 
+const addComment = function(req, res) {
+    const postId = req.params.postId;
+    const newComment = req.body; 
+    console.log(newComment)
+    if (!newComment.text || !newComment.userId) res.status(200).send('Invalid status value')
+
+    newComment.postId = postId;
+    newComment.commentId = uuid();
+
+    commentsData.push(newComment)
+    fs.writeFileSync(commentsFile, JSON.stringify(commentsData));
+
+    res.status(200).send(newComment)
+}
+
 module.exports = {
-    getComments
+    getComments,
+    addComment
 };

@@ -228,6 +228,38 @@ paths:
               $ref: '#/definitions/user'
         400:
           description: 'Invalid status value'
+    post:
+      tags:
+      - comments
+      summary: Post a comment
+      consumes:
+      - application/json
+      parameters:
+      - name: postId
+        in: path
+        required: true
+        type: string
+      - in: body
+        name: body
+        description: Comment object that needs to be added to the store
+        required: true
+        schema:
+          type: object
+          description: Comment entity
+          properties:
+            userId:
+              type: string
+            text:
+              type: string
+      responses:
+        200:
+          description: Success
+          schema:
+            type: array
+            items:
+              $ref: '#/definitions/user'
+        400:
+          description: 'Invalid status value'
 definitions:
   post:
    properties:
