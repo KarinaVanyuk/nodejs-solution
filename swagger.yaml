@@ -8,6 +8,8 @@ tags:
     description: Everything about Posts
   - name: user
     description: Operations about User
+  - name: comments
+    description: Operations about comment
 schemes:
   - http
 paths:
@@ -123,7 +125,7 @@ paths:
   /user:
     get:
       tags:
-      - users
+      - user
       summary: Get all users
       consumes:
       - application/json
@@ -139,7 +141,7 @@ paths:
   /user/{userId}:
     get:
       tags:
-      -  users
+      -  user
       summary: Get user by id
       produces:
       -  application/json
@@ -159,7 +161,7 @@ paths:
           description: 'Invalid status value'
     delete:
       tags:
-      -  users
+      -  user
       summary: Delete user by id
       produces:
       -  application/json
@@ -175,7 +177,7 @@ paths:
           description: 'Invalid status value'
     put:
       tags:
-      - users
+      - user
       summary: Update user info
       produces:
       - application/json
@@ -205,6 +207,27 @@ paths:
               $ref: '#/definitions/user'
         400:
           description: 'Invalid status value'
+  /post/{postId}/comments:
+    get:
+      tags:
+      - comments
+      summary: Get all comments
+      consumes:
+      - application/json
+      parameters:
+      - name: postId
+        in: path
+        required: true
+        type: string
+      responses:
+        200:
+          description: Success
+          schema:
+            type: array
+            items:
+              $ref: '#/definitions/user'
+        400:
+          description: 'Invalid status value'
 definitions:
   post:
    properties:
@@ -225,6 +248,18 @@ definitions:
       name:
         type: string
       mail:
+        type: string
+  comment:
+    properties:
+      commentId:
+        type: string
+      postId:
+        type: string
+      userId:
+        type: string
+      text:
+        type: string
+      createdAt:
         type: string
 responses:
   success:
