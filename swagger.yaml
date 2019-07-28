@@ -133,8 +133,14 @@ paths:
         200:
           description: Success
           schema:
-            items:
-              $ref: '#/definitions/post'
+            type: object
+            properties:
+              postsPerDay:
+                type: number
+              postsPerWeek:
+                type: number
+              postsPerMonth:
+                type: number
         400:
           description: 'Invalid status value'
   /user:
