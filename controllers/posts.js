@@ -64,15 +64,10 @@ const deletePost = function (req, res) {
     post ? res.json(post) : res.status(400).send('Not found');
  }
  
- const getStatistics = function(req, res) {
-     res.send(global.statistics)
- }
-
 module.exports = {
     getPosts,
     addPost,
     deletePost,
     updatePost,
-    getPostById,
-    getStatistics
+    getPostById
 };
