@@ -5,9 +5,7 @@ const swagger = require("./routes/swagger.js");
 const posts = require("./routes/posts.js");
 const users = require("./routes/users.js");
 const comments = require("./routes/comments.js");
-const worker = require("./src/worker/statisticsWorker");
 
-worker();
 const app = express()
 app.use(bodyParser.json());
 

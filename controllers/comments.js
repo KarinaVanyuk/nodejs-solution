@@ -14,6 +14,7 @@ const getComments = function (req, res) {
 const addComment = function(req, res) {
     const postId = req.params.postId;
     const newComment = req.body; 
+    console.log(newComment)
     if (!newComment.text || !newComment.userId) res.status(200).send('Invalid status value')
 
     newComment.postId = postId;

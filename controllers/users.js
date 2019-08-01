@@ -3,21 +3,16 @@ const fs = require('fs');
 const uuid = require('uuid');
 const usersFile = path.join(__dirname, '../data/users.json');
 const usersData = JSON.parse(fs.readFileSync(usersFile, 'utf8'));
-const { getInfoGravatar } = require('../src/utils/getInfoGravatar.js')
 
 const getUsers = function (req, res) {
     res.json(usersData)
 };
 
-const getUserById = async function (req, res) {
+const getUserById = function (req, res) {
     const id = req.params.id;
     const user = usersData.find(user => user.userId === id)
-    if(user) {
-        user.gravatarInfo = await getInfoGravatar(user.mail);
-        res.json(user)
-    } else {
-        res.status(200).send('Not found')
-    } 
+
+    user ? res.json(user): res.status(200).send('Not found')
 };
 
 const updateUser = function (req, res) {
