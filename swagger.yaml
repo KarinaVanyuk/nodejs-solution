@@ -122,6 +122,27 @@ paths:
           description: Success
         400:
           description: Invalid status value
+  /posts/statistics:
+    get:
+      tags:
+      - posts
+      summary: Get statistics
+      consumes:
+      - application/json
+      responses:
+        200:
+          description: Success
+          schema:
+            type: object
+            properties:
+              postsPerDay:
+                type: number
+              postsPerWeek:
+                type: number
+              postsPerMonth:
+                type: number
+        400:
+          description: 'Invalid status value'
   /user:
     get:
       tags:
@@ -142,7 +163,7 @@ paths:
     get:
       tags:
       -  user
-      summary: Get user by id
+      summary: Get user by id and gravatar info
       produces:
       -  application/json
       parameters:
@@ -154,9 +175,16 @@ paths:
         200:
           description: Success
           schema:
-            type: array
-            items:
-              $ref: '#/definitions/user'
+            type: object
+            properties:
+              userId:
+                type: string
+              name:
+                type: string
+              mail:
+                type: string
+              gravatarInfo:
+                type: object
         400:
           description: 'Invalid status value'
     delete:
@@ -296,4 +324,3 @@ definitions:
 responses:
   success:
     description: success
-
