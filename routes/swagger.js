@@ -1,9 +1,10 @@
 const express = require("express");
 const router = express.Router();
 const swaggerUi = require("swagger-ui-express");
-const yaml = require("yamljs");
+const YAML = require("yamljs");
+const path = require("path");
 
-const swaggerDocument = yaml.load(`${__dirname}../../swagger.yaml`);
+const swaggerDocument = YAML.load(`${__dirname}../../swagger.yaml`);
 
 router.use("/", swaggerUi.serve, swaggerUi.setup(swaggerDocument));
 

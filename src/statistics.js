@@ -1,7 +1,5 @@
 const fs = require('fs');
-const parse = require('async-json-parse');
-const fileContents = fs.readFileSync('./data/posts.json', 'utf8')
-const posts = parse(fileContents);
+const posts = JSON.parse(fs.readFileSync('./data/posts.json', 'utf8'));
 
 const statisticsPosts = (posts) => {
     let postsPerDay = 0;
