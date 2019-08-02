@@ -1,21 +1,15 @@
 swagger: '2.0'
 info:
-  description: 'This is a sample server Petstore server.  You can find out more about Swagger at [http://swagger.io](http://swagger.io) or on [irc.freenode.net, #swagger](http://swagger.io/irc/).  For this sample, you can use the api key `special-key` to test the authorization filters.'
+  description: 'First swagger'
   version: 1.0.0
-  title: Swagger Petstore
-  termsOfService: 'http://swagger.io/terms/'
-  contact:
-    email: apiteam@swagger.io
-  license:
-    name: Apache-2.0
-    url: 'http://www.apache.org/licenses/LICENSE-2.0.html'
-host: petstore.swagger.io
-basePath: /v2
+  title: Swagger PostsStore
 tags:
   - name: posts
     description: Everything about Posts
-  - name: users
-    description: Operations about user
+  - name: user
+    description: Operations about User
+  - name: comments
+    description: Operations about comment
 schemes:
   - http
 paths:
@@ -23,17 +17,18 @@ paths:
     get:
       tags:
       - posts
-      summary: Get posts
+      summary: Get all posts
       consumes:
       - application/json
       responses:
         200:
           description: Success
           schema:
+            type: array
             items:
               $ref: '#/definitions/post'
         400:
-          description: 'Invalid status value'
+          description: 'Bad request'
     post:
       tags:
       - posts
@@ -41,7 +36,6 @@ paths:
       consumes:
       - application/json
       produces:
-      - application/xml
       - application/json
       parameters:
       - in: body
@@ -49,38 +43,24 @@ paths:
         description: Post object that needs to be added to the store
         required: true
         schema:
-          $ref: '#/definitions/post'
+          type: object
+          description: Post entity
+          properties:
+            title:
+              type: string
+            text:
+              type: string
       responses:
         200:
           description: Success
         400:
           description: Invalid status value
-    put:
-        tags:
-         - posts
-        summary: Update post
-        consumes:
-        - application/json
-        produces:
-        - application/xml
-        - application/json
-        parameters:
-        - in: body
-          name: body
-          description: Post object that needs to be added to the store
-          required: true
-          schema:
-            $ref: '#/definitions/post'
-        responses:
-          200:
-            description: Success
-          400:
-            description: Invalid status value
+  
   /posts/{postId}:
     get:
       tags:
       - posts
-      summary: Get post by id
+      summary: Get post by Id
       consumes:
       - application/json
       parameters:
@@ -112,10 +92,40 @@ paths:
           description: Success
         400:
           description: 'Invalid status value'
-  /users:
+    put:
+      tags:
+        - posts
+      summary: Update post
+      consumes:
+      - application/json
+      produces:
+      - application/json
+      parameters:
+      - in: path
+        name: postId        
+        required: true
+        type: string
+      - in: body
+        name: body
+        description: Post object that needs to be added to the store
+        required: true
+        schema:
+          type: object
+          description: Post entity
+          properties:
+            title:
+              type: string
+            text:
+              type: string
+      responses:
+        200:
+          description: Success
+        400:
+          description: Invalid status value
+  /user:
     get:
       tags:
-      - users
+      - user
       summary: Get all users
       consumes:
       - application/json
@@ -128,10 +138,10 @@ paths:
               $ref: '#/definitions/user'
         400:
           description: 'Invalid status value'
-  /users/{userId}:
+  /user/{userId}:
     get:
       tags:
-      -  users
+      -  user
       summary: Get user by id
       produces:
       -  application/json
@@ -151,7 +161,7 @@ paths:
           description: 'Invalid status value'
     delete:
       tags:
-      -  users
+      -  user
       summary: Delete user by id
       produces:
       -  application/json
@@ -163,15 +173,11 @@ paths:
       responses:
         200:
           description: Success
-          schema:
-            type: array
-            items:
-              $ref: '#/definitions/user'
         400:
           description: 'Invalid status value'
     put:
       tags:
-      - users
+      - user
       summary: Update user info
       produces:
       - application/json
@@ -185,7 +191,66 @@ paths:
         description: User object for update
         required: true
         schema:
-          $ref: '#/definitions/user'
+          type: object
+          description: User entity
+          properties:
+            name:
+              type: string
+            mail:
+              type: string
+      responses:
+        200:
+          description: Success
+          schema:
+            type: object
+            items:
+              $ref: '#/definitions/user'
+        400:
+          description: 'Invalid status value'
+  /post/{postId}/comments:
+    get:
+      tags:
+      - comments
+      summary: Get all comments
+      consumes:
+      - application/json
+      parameters:
+      - name: postId
+        in: path
+        required: true
+        type: string
+      responses:
+        200:
+          description: Success
+          schema:
+            type: array
+            items:
+              $ref: '#/definitions/user'
+        400:
+          description: 'Invalid status value'
+    post:
+      tags:
+      - comments
+      summary: Post a comment
+      consumes:
+      - application/json
+      parameters:
+      - name: postId
+        in: path
+        required: true
+        type: string
+      - in: body
+        name: body
+        description: Comment object that needs to be added to the store
+        required: true
+        schema:
+          type: object
+          description: Comment entity
+          properties:
+            userId:
+              type: string
+            text:
+              type: string
       responses:
         200:
           description: Success
@@ -212,24 +277,22 @@ definitions:
     properties:
       userId:
         type: string
-      username:
+      name:
         type: string
-      email:
+      mail:
+        type: string
+  comment:
+    properties:
+      commentId:
+        type: string
+      postId:
+        type: string
+      userId:
+        type: string
+      text:
+        type: string
+      createdAt:
         type: string
 responses:
   success:
     description: success
-  # created:
-  #   description: Created
-  # accepted:
-  #   description: Accepted
-  # badRequest:
-  #   description: Bad Request
-  #   examples:
-  #     application/json:
-  #       - message: Payload violates Schema
-  #       - message: Payload Invalid
-  # notFound:
-  #   description: When resource is not found
-  # internalServerError:
-  #   description: Internal Server Error
